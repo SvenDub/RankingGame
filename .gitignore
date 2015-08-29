@@ -7,3 +7,6 @@
 deploy.meta
 description.meta
 icon.meta
+
+.idea/
+*.iml
