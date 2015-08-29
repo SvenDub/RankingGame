@@ -236,3 +236,7 @@ exports.client_rankTop = (roundId, values) !->
 			2: +values[2]
 			3: +values[3]
 		Db.personal().merge 'rankings', roundId, resObj
+
+exports.client_addQuestion = (question) !->
+	pos = Db.shared.incr 'questionsLength'
+	Db.shared.set 'questions', pos, question

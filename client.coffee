@@ -29,6 +29,9 @@ exports.render = !->
 	else if Page.state.get(0) is 'competition'
 		renderCompetition()
 		return
+	else if Page.state.get(0) is 'questions'
+		renderQuestions()
+		return
 	else if roundId = Page.state.get(0)
 		round = rounds.ref(roundId)
 
@@ -43,6 +46,11 @@ exports.render = !->
 	Page.setFooter
 		label: tr("Know Thyself Competition")
 		action: !-> Page.nav ['competition']
+
+	Page.setActions
+		icon: 'overflowing'
+		label: 'Questions'
+		action: !-> Page.nav ['questions']
 
 	Ui.list !->
 		maxId = Db.shared.get('rounds', 'maxId')
@@ -383,6 +391,25 @@ renderRoundResults = (round) !->
 						Dom.text ' ' + tr("(%1 |person|people voted)", round.get('votes'))
 
 	Social.renderComments round.key()
+
+renderQuestions = !->
+	Page.setTitle tr("Questions")
+
+	if !Db.shared.get 'questions'
+		Ui.emptyText tr("No questions have been added yet")
+	else
+		Ui.list !->
+			Db.shared.observeEach 'questions', (question) !->
+				Ui.item !->
+					Dom.div !->
+						Dom.text question.get()
+
+	Page.setFooter
+		label: tr("Add question")
+		action: !-> Modal.prompt "Add question"
+			, (value) !->
+				Server.call 'addQuestion', value
+			, "Question without 'Who' and '?'"
 
 exports.renderSettings = !->
 	Dom.div !->

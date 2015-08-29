@@ -1,5 +1,6 @@
 Plugin = require 'plugin'
 {tr} = require 'i18n'
+Db = require 'db'
 
 exports.qToQuestion = (q) ->
 	if typeof q is 'string'
@@ -33,9 +34,11 @@ exports.getRoundDuration = (currentTime) ->
 
 	duration
 
-exports.questions = -> [
-	# WARNING: indices are used, so don't remove items from this array (and add new questions at the end)
-	# Use null as second array entry if you want to stop a question from being selected (or true if 18+)
-	["has had the best week", false]
-	# WARNING: always add new questions to the end of this array
-]
+exports.questions = ->
+	questions = [
+		["has had the best week", false]
+	]
+	Db.shared.observeEach 'questions', (question) !->
+		questions.push([question.get(), false])
+
+	return questions
