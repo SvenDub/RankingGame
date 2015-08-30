@@ -333,13 +333,12 @@ renderRoundResults = (round) !->
 
     Dom.style padding: 0 # style the main element
     Dom.div !->
-        Dom.style backgroundColor: '#f8f8f8', borderBottom: '2px solid #ccc', padding: '8px 0'
+        Dom.style backgroundColor: '#f8f8f8', borderBottom: '2px solid #ccc', padding: '8px 0px 0px'
 
         renderQuestion round.get('question')
 
         Dom.div !->
-            Dom.style padding: '5px'
-
+            Dom.style padding: '5px 5px 0'
             userCnt = Plugin.users.count().get()
             results = round.get('results')
             if !results
@@ -384,11 +383,18 @@ renderRoundResults = (round) !->
                 myRanking = Db.personal.get 'rankings', round.key()
                 if myRanking and myRanking[1]
                     Dom.div !->
-                        Dom.style textAlign: 'center', color: '#aaa', padding: '10px 8px 0 8px'
+                        Dom.div !->
+                            Dom.style color: '#ba1a6e', textTransform: 'uppercase', fontWeight: 'bold'
+                            Dom.text tr("Know Thyself Competition")
+                        Dom.style textAlign: 'center', color: '#aaa', padding: '12px 8px', fontSize: '85%'
+                        Dom.css '.item .b_middle .b_vertical'
                         scoring = Util.scoring()
                         score = scoring[Math.abs(myRank-myRanking['self'])]
-                        Dom.userText tr("You won %1 point|s with your '%2' prediction", score, Util.selfRankToText(myRanking['self']))
-                        Dom.text ' ' + tr("(%1 |person|people voted)", round.get('votes'))
+                        Dom.userText tr("You won %1 point|s by predicting to be ranked '%2'", score, Util.selfRankToText(myRanking['self']))
+                        Dom.onTap !-> Page.nav ['competition']
+                    Dom.div !->
+                        Dom.style textAlign: 'center', color: '#aaa', padding: '4px', background: '#ddd', fontSize: '85%', margin: '0px -5px'
+                        Dom.text tr("%1 |person|people voted", round.get('votes'))
 
     Social.renderComments round.key()
 
