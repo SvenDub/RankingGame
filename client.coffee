@@ -48,7 +48,7 @@ exports.render = !->
 		action: !-> Page.nav ['competition']
 
 	Page.setActions
-		icon: 'overflowing'
+		icon: 'question'
 		label: 'Questions'
 		action: !-> Page.nav ['questions']
 
