@@ -18,6 +18,8 @@ exports.onInstall = exports.onConfig = (config) !->
 		newRound()
 
 exports.onUpgrade = !->
+	log "Updated at " + Plugin.time()
+
 	if !Db.shared.get('rounds')
 		newRound()
 

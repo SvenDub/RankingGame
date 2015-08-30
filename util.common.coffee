@@ -36,9 +36,10 @@ exports.getRoundDuration = (currentTime) ->
 
 exports.questions = ->
 	questions = [
-		["has had the best week", false]
+	    0: ["has had the best week", false]
 	]
+
 	Db.shared.observeEach 'questions', (question) !->
-		questions.push([question.get(), false])
+		questions[question.key()] = [question.get(), false]
 
 	return questions
