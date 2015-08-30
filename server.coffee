@@ -194,9 +194,10 @@ close = (roundId = false) !->
             # new user, initialize on 2 points per round score
             curScore = (roundId-1) * 2
 
-        score = 2
+        score = 0
         if self
             # participating user
+            score = 2
             rank = 0
             for i in [1..5]
                 if i>3
