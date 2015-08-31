@@ -90,21 +90,36 @@ exports.render = !->
                 else
                     # this round is current and has been ranked, or needs to be ranked
                     Dom.div !->
-                        Dom.style width: '40px', height: '40px', marginRight: '10px', Box: 'center middle'
-                        Icon.render
-                            data: (if hasRanked then 'clock2' else 'new')
-                            color: (if hasRanked then '#aaa' else null)
-                            style: { display: 'block' }
-                            size: 34
-
-                    Dom.div !->
-                        Dom.style Flex: 1
-                        Dom.b !->
-                            Dom.style color: (if !hasRanked then Colors.highlight else 'inherit')
-                            Dom.text Util.qToQuestion(q)
+                        Dom.style Flex: 1, padding: '8px', margin: '-8px'
+                        Dom.addClass 'b_'
+                        Dom.addClass 'b_center'
+                        Dom.addClass 'b_middle'
                         Dom.div !->
-                            Dom.text (if hasRanked then tr("Results & new round") else tr("Voting closes & new round")) + ' '
-                            Time.deltaText(Db.shared.get('next'))
+                            Dom.style width: '40px', height: '40px', marginRight: '10px', Box: 'center middle'
+                            Icon.render
+                                data: (if hasRanked then 'clock2' else 'new')
+                                color: (if hasRanked then '#aaa' else null)
+                                style: { display: 'block' }
+                                size: 34
+
+                        Dom.div !->
+                            Dom.style Flex: 1
+                            Dom.b !->
+                                Dom.style color: (if !hasRanked then Colors.highlight else 'inherit')
+                                Dom.text Util.qToQuestion(q)
+                            Dom.div !->
+                                Dom.text (if hasRanked then tr("Results & new round") else tr("Voting closes & new round")) + ' '
+                                Time.deltaText(Db.shared.get('next'))
+                        Dom.onTap !->
+                            Page.nav [round.key()]
+                    if Plugin.userIsAdmin() || Plugin.ownerId()==Plugin.userId()
+                        Icon.render
+                            data: 'good2'
+                            size: 24
+                            color: '#ba1a6e'
+                            onTap: !-> Server.call 'newRound'
+                            style: {borderLeftWidth: '1px', borderLeftStyle: 'solid', borderLeftColor: '#ccc', padding: '10px 14px', marginLeft: '8px'}
+
 
                 Event.renderBubble [round.key()], style: marginLeft: '4px'
                 ###
@@ -382,12 +397,12 @@ renderRoundResults = (round) !->
 
                 myRanking = Db.personal.get 'rankings', round.key()
                 if myRanking and myRanking[1]
-                    Dom.div !->
+                    Ui.item !->
                         Dom.div !->
                             Dom.style color: '#ba1a6e', textTransform: 'uppercase', fontWeight: 'bold'
                             Dom.text tr("Know Thyself Competition")
-                        Dom.style textAlign: 'center', color: '#aaa', padding: '12px 8px', fontSize: '85%'
-                        Dom.css '.item .b_middle .b_vertical'
+                        Dom.style textAlign: 'center', color: '#aaa', padding: '12px 8px', fontSize: '85%', borderBottomStyle: 'none'
+                        Dom.addClass 'b_vertical'
                         scoring = Util.scoring()
                         score = scoring[Math.abs(myRank-myRanking['self'])]
                         Dom.userText tr("You won %1 point|s by predicting to be ranked '%2'", score, Util.selfRankToText(myRanking['self']))
