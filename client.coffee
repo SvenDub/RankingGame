@@ -419,11 +419,21 @@ renderQuestions = !->
     if !Db.shared.get 'questions'
         Ui.emptyText tr("No questions have been added yet")
     else
+        maxId = Db.shared.get('rounds', 'maxId') || 0
+        used = []
+        for i in [1..maxId]
+            qid = Db.shared.get 'rounds', i, 'qid'
+            used.push +qid
+
         Ui.list !->
             Db.shared.observeEach 'questions', (question) !->
                 Ui.item !->
                     Dom.div !->
                         Dom.text question.get()
+                        for i in used
+                            if +question.key() is +i
+                                Dom.style color: '#ccc'
+                                break
 
     Page.setFooter
         label: tr("Add question")
