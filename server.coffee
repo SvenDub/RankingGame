@@ -225,20 +225,20 @@ exports.client_rankSelf = (roundId, self) !->
     return if Db.shared.get('rounds', roundId, 'results') or self not in [1..5]
         # round no longer active
 
-    Db.personal().set 'rankings', roundId, 'self', self
+    Db.personal(Plugin.userId()).set 'rankings', roundId, 'self', self
 
 exports.client_rankTop = (roundId, values) !->
     return if Db.shared.get('rounds', roundId, 'results') or !values[1] or !values[2] or (topCnt isnt 2 and !values[3])
         # round no longer active
 
     if values is 'remove'
-        Db.personal().remove 'rankings', roundId
+        Db.personal(Plugin.userId()).remove 'rankings', roundId
     else
         resObj =
             1: +values[1]
             2: +values[2]
             3: +values[3]
-        Db.personal().merge 'rankings', roundId, resObj
+        Db.personal(Plugin.userId()).merge 'rankings', roundId, resObj
 
 exports.client_addQuestion = (question) !->
     pos = Db.shared.incr 'questionsLength'
