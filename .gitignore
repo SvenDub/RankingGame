@@ -4,9 +4,7 @@
 *.org
 *.orig
 .*.sw?
-deploy.meta
-description.meta
-icon.meta
+.deploykey
 
 .idea/
 *.iml
