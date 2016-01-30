@@ -443,18 +443,20 @@ renderQuestions = !->
             , "Question without 'Who' and '?'"
 
 exports.renderSettings = !->
-    Dom.div !->
-        Dom.style margin: '16px -8px'
+    Form.check
+        text: tr("Allow 18+ topics")
+        name: 'adult'
+        value: if Db.shared then Db.shared.func('adult')
 
-        Form.sep()
-        Form.check
-            text: tr("Allow 18+ topics")
-            name: 'adult'
-            value: if Db.shared then Db.shared.func('adult')
-        Form.sep()
-
-        if Db.shared
-            Ui.button !->
-                Dom.style marginTop: '14px'
-                Dom.text tr("Start new round now")
-            , !-> Server.call 'newRound'
+    if Db.shared
+        Form.row !->
+            Dom.style Box: "middle"
+            Dom.div !->
+                Dom.text "Start new round now"
+            Dom.div !->
+                Dom.style Flex: 1
+            Icon.render
+                data: 'good2'
+                size: 24
+                color: '#ba1a6e'
+            Dom.onTap !-> Server.call 'newRound'
