@@ -114,7 +114,7 @@ exports.render = !->
                             Page.nav [round.key()]
                     if Plugin.userIsAdmin() || Plugin.ownerId()==Plugin.userId()
                         Icon.render
-                            data: 'good2'
+                            data: 'fastforward'
                             size: 24
                             color: '#ba1a6e'
                             onTap: !-> Server.call 'newRound'
@@ -456,7 +456,7 @@ exports.renderSettings = !->
             Dom.div !->
                 Dom.style Flex: 1
             Icon.render
-                data: 'good2'
+                data: 'fastforward'
                 size: 24
                 color: '#ba1a6e'
             Dom.onTap !-> Server.call 'newRound'
