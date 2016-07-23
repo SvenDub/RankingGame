@@ -5,10 +5,10 @@ deploy:
     script: ./deploy $DEPLOYKEY_DEV
     on:
       repo: SvenDub/RankingGame
-      branch: master
+      branch: develop
   -
     provider: script
     script: ./deploy $DEPLOYKEY
     on:
       repo: SvenDub/RankingGame
-      tags: true
+      branch: master
