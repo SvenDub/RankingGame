@@ -32,6 +32,12 @@ exports.render = !->
     else if Page.state.get(0) is 'questions'
         renderQuestions()
         return
+    else if Page.state.get(0) is 'history'
+        renderHistory()
+        return
+    else if Page.state.get(0) is 'rounds'
+        renderRounds(true)
+        return
     else if roundId = Page.state.get(0)
         round = rounds.ref(roundId)
 
@@ -43,15 +49,23 @@ exports.render = !->
             renderRound round
         return
 
-    Page.setFooter
+    renderRounds(false)
+
+    Page.setFooter [
         label: tr("Know Thyself Competition")
         action: !-> Page.nav ['competition']
+    ,
+        label: tr("All Rounds")
+        action: !-> Page.nav ['rounds']
+    ]
 
     Page.setActions
         icon: 'question'
         label: 'Questions'
         action: !-> Page.nav ['questions']
 
+renderRounds = (showAll) !->
+    rounds = Db.shared.ref 'rounds'
     Ui.list !->
         maxId = Db.shared.get('rounds', 'maxId')
 
@@ -132,7 +146,7 @@ exports.render = !->
                     Dom.onTap !->
                         Page.nav [round.key()]
         , (round) -> # skip the maxId key
-            if +round.key()
+            if +round.key() and (maxId - round.key() < 25 or showAll)
                 -round.key()
 
 renderCompetition = !->
@@ -416,6 +430,42 @@ renderRoundResults = (round) !->
 renderQuestions = !->
     Page.setTitle tr("Questions")
 
+    Page.setActions
+        icon: 'history'
+        label: 'History'
+        action: !-> Page.nav ['history']
+
+    if !Db.shared.get 'questions'
+        Ui.emptyText tr("No questions have been added yet")
+    else
+        maxId = Db.shared.get('rounds', 'maxId') || 0
+        used = []
+        for i in [1..maxId]
+            qid = Db.shared.get 'rounds', i, 'qid'
+            used.push +qid
+
+        Ui.list !->
+            Db.shared.observeEach 'questions', (question) !->
+                found = false
+                for i in used
+                    if +question.key() is +i
+                        found = true
+                        break
+                if !found
+                    Ui.item !->
+                        Dom.div !->
+                            Dom.text question.get()
+
+    Page.setFooter
+        label: tr("Add question")
+        action: !-> Modal.prompt "Add question"
+            , (value) !->
+                Server.call 'addQuestion', value
+            , "Question without 'Who' and '?'"
+
+renderHistory = !->
+    Page.setTitle tr("Questions of the ancients")
+
     if !Db.shared.get 'questions'
         Ui.emptyText tr("No questions have been added yet")
     else
@@ -435,19 +485,7 @@ renderQuestions = !->
                                 Dom.style color: '#ccc'
                                 break
 
-    Page.setFooter
-        label: tr("Add question")
-        action: !-> Modal.prompt "Add question"
-            , (value) !->
-                Server.call 'addQuestion', value
-            , "Question without 'Who' and '?'"
-
 exports.renderSettings = !->
-    Form.check
-        text: tr("Allow 18+ topics")
-        name: 'adult'
-        value: if Db.shared then Db.shared.func('adult')
-
     if Db.shared
         Form.row !->
             Dom.style Box: "middle"

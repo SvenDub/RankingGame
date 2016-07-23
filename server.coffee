@@ -12,8 +12,6 @@ topCnt = Math.min(3, userCnt-1)
 exports.getTitle = !-> # prevents title input from showing up when adding the plugin
 
 exports.onInstall = exports.onConfig = (config) !->
-    Db.shared.set 'adult', config.adult if config?
-
     if !Db.shared.get('rounds')
         newRound()
 
@@ -59,10 +57,9 @@ exports.client_newRound = exports.newRound = newRound = !->
         qid = Db.shared.get 'rounds', i, 'qid'
         used.push +qid
 
-    allowAdult = Db.shared.get 'adult'
     available = []
     for q, nr in questions
-        if +nr not in used and (allowAdult or q[1] is false) and q[1] isnt null
+        if +nr not in used
             available.push +nr
 
     if available.length
