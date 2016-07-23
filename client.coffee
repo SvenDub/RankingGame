@@ -301,12 +301,11 @@ renderRound = (round) !->
             Dom.div !->
                 Dom.style
                     Box: 'center middle'
-                    display: 'inline-block'
                     position: 'relative'
                     padding: '6px 4px'
                     margin: '1px'
                     borderRadius: '2px'
-                    width: size+'px'
+                    flexDirection: 'column'
 
                 Ui.avatar Plugin.userAvatar(user.key()),
                     size: size
