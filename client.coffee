@@ -301,7 +301,7 @@ renderRound = (round) !->
             Dom.div !->
                 Dom.style
                     Box: 'center middle'
-                    display: 'inline-block'
+                    display: 'inline-block !important'
                     position: 'relative'
                     padding: '6px 4px'
                     margin: '1px'
