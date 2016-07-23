@@ -318,7 +318,7 @@ renderRound = (round) !->
                     Dom.div !->
                         Dom.style
                             position: 'absolute'
-                            left: '4px'
+                            left: 'auto'
                             top: '6px'
                             width: (size+2)+'px'
                             height: (size+2)+'px'
