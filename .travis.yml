@@ -2,13 +2,13 @@ language: bash
 deploy:
   -
     provider: script
-    script: ./deploy $DEPLOYKEY_DEV
-    on:
-      repo: SvenDub/RankingGame
-      branch: develop
-  -
-    provider: script
-    script: ./deploy $DEPLOYKEY
+    script: .travis/deploy_prod.sh
     on:
       repo: SvenDub/RankingGame
       branch: master
+  -
+    provider: script
+    script: .travis/deploy_dev.sh
+    on:
+      repo: SvenDub/RankingGame
+      branch: develop
