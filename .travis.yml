@@ -1,0 +1,14 @@
+language: bash
+deploy:
+  -
+    provider: script
+    script: ./deploy $DEPLOYKEY_DEV
+    on:
+      repo: SvenDub/RankingGame
+      branch: master
+  -
+    provider: script
+    script: ./deploy $DEPLOYKEY
+    on:
+      repo: SvenDub/RankingGame
+      tags: true

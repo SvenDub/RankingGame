@@ -1,5 +1,6 @@
 Ranking Game
 ============
+[![Build Status](https://travis-ci.org/SvenDub/RankingGame.svg?branch=master)](https://travis-ci.org/SvenDub/RankingGame)
 
 Who is the funniest? Rank each other on all sorts of topics!
 
