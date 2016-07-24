@@ -300,12 +300,12 @@ renderRound = (round) !->
         Plugin.users.observeEach (user) !->
             Dom.div !->
                 Dom.style
-                    Box: 'center middle'
                     position: 'relative'
                     padding: '6px 4px'
                     margin: '1px'
                     borderRadius: '2px'
                     flexDirection: 'column'
+                    display: 'inline-flex'
 
                 Ui.avatar Plugin.userAvatar(user.key()),
                     size: size
@@ -318,12 +318,10 @@ renderRound = (round) !->
                     Dom.div !->
                         Dom.style
                             position: 'absolute'
-                            left: '4px'
-                            top: '6px'
-                            width: (size+2)+'px'
-                            height: (size+2)+'px'
-                            borderRadius: (size+2)+'px'
-                            lineHeight: (size+2)+'px'
+                            width: size+'px'
+                            height: size+'px'
+                            borderRadius: size+'px'
+                            lineHeight: size+'px'
                             backgroundColor: 'rgba(0, 0, 0, 0.5)'
                             fontWeight: 'bold'
                             fontSize: '250%'
