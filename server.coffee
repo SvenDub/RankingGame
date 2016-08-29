@@ -240,3 +240,6 @@ exports.client_rankTop = (roundId, values) !->
 exports.client_addQuestion = (question) !->
     pos = Db.shared.incr 'questionsLength'
     Db.shared.set 'questions', pos, question
+
+exports.client_editQuestion = (question, pos) !->
+    Db.shared.set 'questions', pos, question
