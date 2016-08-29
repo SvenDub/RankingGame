@@ -451,7 +451,10 @@ renderQuestions = !->
                 if !found
                     Ui.item !->
                         Dom.div !->
-                            Dom.text question.get()
+                            Dom.style Flex: 1, padding: '8px', margin: '-8px'
+                            Dom.div !->
+                                Dom.style Flex: 1
+                                Dom.text question.get()
                             Icon.render
                                 data: 'edit'
                                 size: 24
