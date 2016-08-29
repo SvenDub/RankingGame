@@ -452,6 +452,9 @@ renderQuestions = !->
                     Ui.item !->
                         Dom.div !->
                             Dom.style Flex: 1, padding: '8px', margin: '-8px'
+                            Dom.addClass 'b_'
+                            Dom.addClass 'b_center'
+                            Dom.addClass 'b_middle'
                             Dom.div !->
                                 Dom.style Flex: 1
                                 Dom.text question.get()
