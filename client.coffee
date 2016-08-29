@@ -452,6 +452,15 @@ renderQuestions = !->
                     Ui.item !->
                         Dom.div !->
                             Dom.text question.get()
+                            Icon.render
+                                data: 'edit'
+                                size: 24
+                                color: '#ba1a6e'
+                                onTap: !-> Modal.prompt "Edit question"
+                                    , (value) !->
+                                        Server.call 'editQuestion', value, question.key()
+                                    , "Question without 'Who' and '?'"
+                                style: {borderLeftWidth: '1px', borderLeftStyle: 'solid', borderLeftColor: '#ccc', padding: '10px 14px', marginLeft: '8px'}
 
     Page.setFooter
         label: tr("Add question")
