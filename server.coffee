@@ -200,12 +200,13 @@ close = (roundId = false) !->
                 rank = i if +userId is resultsObj[i]
 
             if rank
-                if self in [1..3]
-                    for i in [1..3]
-                        if results[self - 1][1] is results[i - 1][1]
-                            diff = 0
+                if rank in [1..3]
+                    if results[self - 1][1] is results[rank - 1][1]
+                        log 'Position ' + i + ' has the same score as guessed position ' + self
+                        diff = 0
 
                 if not diff?
+                    log 'diff not yet defined, so calculating now'
                     diff = Math.min(3, Math.abs(rank - self))
 
                 scoring = Util.scoring()
