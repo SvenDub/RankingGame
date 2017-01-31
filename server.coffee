@@ -197,13 +197,17 @@ close = (roundId = false) !->
             score = 2
             rank = 0
             for i in [1..5]
-                if i>3
-                    rank = i if +userId in resultsObj[i]
-                else
-                    rank = i if +userId is resultsObj[i]
+                rank = i if +userId is resultsObj[i]
 
             if rank
-                diff = Math.min(3, Math.abs(rank - self))
+                if self in [1..3]
+                    for i in [1..3]
+                        if results[self][1] is results[i][1]
+                            diff = 0
+
+                if not diff?
+                    diff = Math.min(3, Math.abs(rank - self))
+
                 scoring = Util.scoring()
                 score = scoring[diff]
 
