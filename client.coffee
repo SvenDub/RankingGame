@@ -367,6 +367,7 @@ renderRoundResults = (round) !->
             Dom.style padding: '5px 5px 0'
             userCnt = Plugin.users.count().get()
             results = round.get('results')
+            percs = round.get('percs')
             if !results
                 Dom.div tr("Not enough votes")
             else
@@ -415,7 +416,7 @@ renderRoundResults = (round) !->
                         Dom.style textAlign: 'center', color: '#aaa', padding: '12px 8px', fontSize: '85%', borderBottomStyle: 'none'
                         Dom.addClass 'b_vertical'
                         if myRank in [1..3]
-                            if results[myRanking['self'] - 1][1] is results[myRank - 1][1]
+                            if percs[myRanking['self']] is percs[myRank]
                                 diff = 0
                         if not diff?
                             diff = Math.min(3, Math.abs(myRank - myRanking['self']))
