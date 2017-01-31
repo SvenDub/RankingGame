@@ -201,8 +201,8 @@ close = (roundId = false) !->
 
             if rank
                 if self in [1..3]
-                    for i in [0..2]
-                        if results[self][1] is results[i][1]
+                    for i in [1..3]
+                        if results[self - 1][1] is results[i - 1][1]
                             diff = 0
 
                 if not diff?
