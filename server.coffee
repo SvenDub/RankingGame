@@ -202,7 +202,7 @@ close = (roundId = false) !->
             if rank
                 if rank in [1..3]
                     if results[self - 1][1] is results[rank - 1][1]
-                        log 'Position ' + i + ' has the same score as guessed position ' + self
+                        log 'Position ' + rank + ' has the same score as guessed position ' + self + '. ' + results[self - 1][1] + '==' + results[rank - 1][1]
                         diff = 0
 
                 if not diff?
