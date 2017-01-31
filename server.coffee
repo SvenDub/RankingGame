@@ -197,15 +197,23 @@ close = (roundId = false) !->
             score = 2
             rank = 0
             for i in [1..5]
-                if i>3
-                    rank = i if +userId in resultsObj[i]
-                else
-                    rank = i if +userId is resultsObj[i]
+                rank = i if +userId is resultsObj[i]
 
             if rank
-                diff = Math.min(3, Math.abs(rank - self))
+                calculated = false
+                if rank in [1..3]
+                    if results[self - 1][1] is results[rank - 1][1]
+                        log Plugin.userName(userId) + ': Position ' + rank + ' has the same score as guessed position ' + self + '. ' + results[self - 1][1] + '==' + results[rank - 1][1]
+                        diff = 0
+                        calculated = true
+
+                if !calculated
+                    log Plugin.userName(userId) + ': diff not yet defined, so calculating now'
+                    diff = Math.min(3, Math.abs(rank - self))
+
                 scoring = Util.scoring()
                 score = scoring[diff]
+                log Plugin.userName(userId) + ': Scored ' + score + ' points'
 
         Db.shared.set 'competition', userId, curScore + score
 
