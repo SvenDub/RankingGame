@@ -202,15 +202,16 @@ close = (roundId = false) !->
             if rank
                 if rank in [1..3]
                     if results[self - 1][1] is results[rank - 1][1]
-                        log 'Position ' + rank + ' has the same score as guessed position ' + self + '. ' + results[self - 1][1] + '==' + results[rank - 1][1]
+                        log Plugin.userName(userId) + ': Position ' + rank + ' has the same score as guessed position ' + self + '. ' + results[self - 1][1] + '==' + results[rank - 1][1]
                         diff = 0
 
                 if not diff?
-                    log 'diff not yet defined, so calculating now'
+                    log Plugin.userName(userId) + ': diff not yet defined, so calculating now'
                     diff = Math.min(3, Math.abs(rank - self))
 
                 scoring = Util.scoring()
                 score = scoring[diff]
+                log Plugin.userName(userId) + ': Scored ' + score + ' points'
 
         Db.shared.set 'competition', userId, curScore + score
 
